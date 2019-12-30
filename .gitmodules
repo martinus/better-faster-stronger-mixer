@@ -1,3 +1,6 @@
 [submodule "external/doctest"]
 	path = external/doctest
 	url = https://github.com/onqtam/doctest.git
+[submodule "external/nanobench"]
+	path = external/nanobench
+	url = https://github.com/martinus/nanobench
