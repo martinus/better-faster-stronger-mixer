@@ -32,4 +32,7 @@ inline uint64_t umul128(uint64_t a, uint64_t b, uint64_t* high) noexcept {
 #    else
     return _umul128(a, b, high);
 #    endif
+#else
+#    error No hardware umul
+#endif
 }

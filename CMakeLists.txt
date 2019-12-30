@@ -26,6 +26,7 @@ include(ConfigSafeGuards)
 include(Colors)
 include(CTest)
 include(Doctest)
+include(Nanobench)
 include(Documentation)
 include(LTO)
 include(Misc)
@@ -43,13 +44,16 @@ set(APP_NAME mixer)
 # Add an executable for the file app/main.cpp.
 # If you add more executables, copy these lines accordingly.
 add_executable(${APP_NAME}
-    src/example.cpp
-    src/doctest.cpp)
+    src/app/doctest.cpp
+    src/app/nanobench.cpp
+    src/benchmark.cpp
+    src/example.cpp)
 
 # Lib needs its header files, and users of the library must also see these (PUBLIC). (No change needed)
 target_include_directories(${APP_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 target_link_libraries(${APP_NAME} PRIVATE doctest)
+target_link_libraries(${APP_NAME} PRIVATE nanobench)
 
 target_set_warnings(${APP_NAME} ENABLE ALL AS_ERROR ALL DISABLE Annoying) # Set warnings (if needed).
 target_enable_lto(${APP_NAME} optimized)  # enable link-time-optimization if available for non-debug configurations
