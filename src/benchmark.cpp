@@ -1,8 +1,8 @@
 #include "doctest.h"
 #include "nanobench.h"
 
-#include "mumxmumxx1.h"
-#include "murmurhash3_fmix64.h"
+#include "mixer/mumxmumxx1.h"
+#include "mixer/murmurhash3_fmix64.h"
 
 TEST_CASE("benchmark") {
     ankerl::nanobench::Config cfg;

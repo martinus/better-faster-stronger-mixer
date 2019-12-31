@@ -28,12 +28,12 @@ include(CTest)
 include(Doctest)
 include(Nanobench)
 include(Documentation)
-include(LTO)
+#include(LTO)
 include(Misc)
 include(Warnings)
 
 # Check for LTO support.
-find_lto(CXX)
+#find_lto(CXX)
 
 # --------------------------------------------------------------------------------
 #                            Build! (Change as needed)
@@ -46,8 +46,12 @@ set(APP_NAME mixer)
 add_executable(${APP_NAME}
     src/app/doctest.cpp
     src/app/nanobench.cpp
+
+    src/unit/test_bitreverse.cpp
+
     src/benchmark.cpp
-    src/example.cpp)
+    src/practrand_feeder.cpp
+)
 
 # Lib needs its header files, and users of the library must also see these (PUBLIC). (No change needed)
 target_include_directories(${APP_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include)
@@ -56,7 +60,7 @@ target_link_libraries(${APP_NAME} PRIVATE doctest)
 target_link_libraries(${APP_NAME} PRIVATE nanobench)
 
 target_set_warnings(${APP_NAME} ENABLE ALL AS_ERROR ALL DISABLE Annoying) # Set warnings (if needed).
-target_enable_lto(${APP_NAME} optimized)  # enable link-time-optimization if available for non-debug configurations
+#target_enable_lto(${APP_NAME} optimized)  # enable link-time-optimization if available for non-debug configurations
 
 # Set the properties you require, e.g. what C++ standard to use. Here applied to library and main (change as needed).
 set_target_properties(
