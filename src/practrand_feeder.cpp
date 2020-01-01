@@ -1,12 +1,9 @@
 #include "doctest.h"
 
+#include "AllMixersWithClasses.h"
+#include "BufferedWriter.h"
 #include "bitops/bitreverse.h"
 #include "bitops/rot.h"
-#include "mixer/mumxmumxx1.h"
-#include "mixer/murmurhash3_fmix64.h"
-#include "mixer/wyhash3_mix.h"
-
-#include "BufferedWriter.h"
 
 #include <iostream>
 
@@ -46,23 +43,4 @@ TEST_CASE_TEMPLATE_DEFINE("practrand_feeder" * doctest::skip(), Mixer, mixer_id)
     }
 }
 
-// creates a class around the given mixer, and provides a name for doctest.
-#define MAKE_MIXER_CLASS(mixer)                    \
-    class c_##mixer {                              \
-    public:                                        \
-        uint64_t operator()(uint64_t x) noexcept { \
-            return mixer(x);                       \
-        }                                          \
-        static char const* name() {                \
-            return #mixer;                         \
-        }                                          \
-    };                                             \
-    TYPE_TO_STRING(c_##mixer);                     \
-    TEST_CASE_TEMPLATE_INVOKE(mixer_id, c_##mixer);
-
-// Create class wrapper around the mixer, make it stringifyable, add it to mixer_id test
-// instantiation
-
-MAKE_MIXER_CLASS(murmurhash3_fmix64)
-MAKE_MIXER_CLASS(mumxmumxx1)
-MAKE_MIXER_CLASS(wyhash3_mix)
+TEST_CASE_TEMPLATE_APPLY(mixer_id, AllMixers);

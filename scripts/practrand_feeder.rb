@@ -1,7 +1,7 @@
 #!/bin/env ruby
 
 if ARGV.size != 3
-    STDERR.puts "usage: practrand_feeder.rb <num_threads> <tlmax> <mixer>"
+    STDERR.puts "usage: practrand_feeder.rb <num_threads: 16> <tlmin: 10> <tlmax: 40> <mixer>"
     exit(1)
 end
 
@@ -10,7 +10,7 @@ tlmax = ARGV.shift.to_i
 mixer = ARGV.shift
 
 cmd_mixer = "./mixer --out=/dev/null -ns -tc=\"practrand_feeder<c_#{mixer}>\""
-cmd_pract = "../../practrand/RNG_test stdin64 -tf 2 -tlmin 1KB -tlmax #{tlmax}"
+cmd_pract = "../../practrand/RNG_test stdin64 -tf 2 -tlmin 10 -tlmax #{tlmax}"
 
 # create task queue (threadsave)
 tasks = Queue.new

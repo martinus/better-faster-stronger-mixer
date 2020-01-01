@@ -51,6 +51,7 @@ add_executable(${APP_NAME}
 
     src/benchmark.cpp
     src/practrand_feeder.cpp
+    src/show_hash.cpp
 )
 
 # Lib needs its header files, and users of the library must also see these (PUBLIC). (No change needed)
