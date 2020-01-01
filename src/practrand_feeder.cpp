@@ -32,8 +32,6 @@ TEST_CASE_TEMPLATE_DEFINE("practrand_feeder" * doctest::skip(), Mixer, mixer_id)
 
     uint64_t ctr = 0;
     Mixer mixer{};
-    std::cerr << Mixer::name() << ", rotation=" << rotation << ", bitreverse=" << isBitreverse
-              << std::endl;
 
     if (isBitreverse) {
         while (true) {
