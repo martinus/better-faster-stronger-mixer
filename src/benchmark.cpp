@@ -1,19 +1,13 @@
+#include "AllMixersWithClasses.h"
 #include "doctest.h"
 #include "nanobench.h"
 
-#include "mixer/mumxmumxx1.h"
-#include "mixer/mumxmumxx2.h"
-#include "mixer/murmurhash3_fmix64.h"
-#include "mixer/wyhash3_mix.h"
-
-TEST_CASE("benchmark") {
+TEST_CASE_TEMPLATE_DEFINE("benchmark" * doctest::skip(), Mixer, mixer_id) {
     ankerl::nanobench::Config cfg;
 
-    uint64_t n = 1234;
-    cfg.run("murmurhash3_fmix64", [&] { n = murmurhash3_fmix64(n); });
-    cfg.run("mumxmumxx1", [&] { n = mumxmumxx1(n); });
-    cfg.run("mumxmumxx2", [&] { n = mumxmumxx2(n); });
-    cfg.run("wyhash3_mix", [&] { n = wyhash3_mix(n); });
-
+    uint64_t n = UINT64_C(0xfedcba9876543210);
+    Mixer mixer;
+    cfg.run(Mixer::name(), [&] { n = mixer(n); });
     ankerl::nanobench::doNotOptimizeAway(n);
 }
+TEST_CASE_TEMPLATE_APPLY(mixer_id, AllMixers);
