@@ -4,6 +4,7 @@
 #include "bitops/rot.h"
 #include "mixer/mumxmumxx1.h"
 #include "mixer/murmurhash3_fmix64.h"
+#include "mixer/wyhash3_mix.h"
 
 #include "BufferedWriter.h"
 
@@ -66,3 +67,4 @@ TEST_CASE_TEMPLATE_DEFINE("practrand_feeder" * doctest::skip(), Mixer, mixer_id)
 
 MAKE_MIXER_CLASS(murmurhash3_fmix64)
 MAKE_MIXER_CLASS(mumxmumxx1)
+MAKE_MIXER_CLASS(wyhash3_mix)
