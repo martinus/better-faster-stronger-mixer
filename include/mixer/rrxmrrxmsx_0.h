@@ -1,3 +1,5 @@
+#pragma once
+
 #include "bitops/rot.h"
 
 #include <cstdint>

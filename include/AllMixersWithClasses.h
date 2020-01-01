@@ -4,6 +4,7 @@
 
 #include "mixer/ettinger_mixer.h"
 #include "mixer/lemire_stronglyuniversal.h"
+#include "mixer/mum3_mixer.h"
 #include "mixer/mumxmumxx1.h"
 #include "mixer/mumxmumxx2.h"
 #include "mixer/murmurhash3_fmix64.h"
@@ -31,6 +32,7 @@
 
 MAKE_MIXER_CLASS(ettinger_mixer)
 MAKE_MIXER_CLASS(lemire_stronglyuniversal)
+MAKE_MIXER_CLASS(mum3_mixer)
 MAKE_MIXER_CLASS(mumxmumxx1)
 MAKE_MIXER_CLASS(mumxmumxx2)
 MAKE_MIXER_CLASS(murmurhash3_fmix64)
@@ -39,5 +41,5 @@ MAKE_MIXER_CLASS(rrxmrrxmsx_0)
 MAKE_MIXER_CLASS(wyhash3_mix)
 
 using AllMixers =
-    std::tuple<c_ettinger_mixer, c_lemire_stronglyuniversal, c_mumxmumxx1, c_mumxmumxx2,
-               c_murmurhash3_fmix64, c_rrmxmx, c_rrxmrrxmsx_0, c_wyhash3_mix>;
+    std::tuple<c_ettinger_mixer, c_lemire_stronglyuniversal, c_mum3_mixer, c_mumxmumxx1,
+               c_mumxmumxx2, c_murmurhash3_fmix64, c_rrmxmx, c_rrxmrrxmsx_0, c_wyhash3_mix>;

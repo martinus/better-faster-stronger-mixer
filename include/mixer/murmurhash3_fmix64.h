@@ -1,3 +1,6 @@
+
+#pragma once
+
 // Source: https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp
 // License: Public domain
 
@@ -31,8 +34,6 @@ murmurhash3_fmix64 reverse:
 min: 14, max: 19, avg: 16.5
 
 */
-
-#pragma once
 
 #include <cstdint>
 
