@@ -22,7 +22,7 @@ def gen(name, is_reverse)
     exponents = []
     64.times do |i|
         if i % 16 == 0
-            printf("\n|**%2d**", i)
+            printf("\n|%s**%d**", i<=9 ? " " : "", i)
         end
 
         filename = sprintf("%s_%d_%02d.txt", name, is_reverse ? 1 : 0, i)
