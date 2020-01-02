@@ -2,6 +2,7 @@
 
 #include "doctest.h"
 
+#include "mixer/aes.h"
 #include "mixer/ettinger_mixer.h"
 #include "mixer/fnv1a_64.h"
 #include "mixer/lemire_stronglyuniversal.h"
@@ -11,6 +12,7 @@
 #include "mixer/murmurhash3_fmix64.h"
 #include "mixer/rrmxmx.h"
 #include "mixer/rrxmrrxmsx_0.h"
+#include "mixer/staffort_mix13.h"
 #include "mixer/twang_mix64.h"
 #include "mixer/wyhash3_mix.h"
 #include "mixer/xxh3_mixer.h"
@@ -33,6 +35,8 @@
 // Create class wrapper around the mixer, make it stringifyable, add it to mixer_id test
 // instantiation
 
+MAKE_MIXER_CLASS(aes2)
+MAKE_MIXER_CLASS(aes3)
 MAKE_MIXER_CLASS(ettinger_mixer)
 MAKE_MIXER_CLASS(fnv1a_64)
 MAKE_MIXER_CLASS(lemire_stronglyuniversal)
@@ -42,10 +46,12 @@ MAKE_MIXER_CLASS(mumxmumxx2)
 MAKE_MIXER_CLASS(murmurhash3_fmix64)
 MAKE_MIXER_CLASS(rrmxmx)
 MAKE_MIXER_CLASS(rrxmrrxmsx_0)
+MAKE_MIXER_CLASS(staffort_mix13)
 MAKE_MIXER_CLASS(twang_mix64)
 MAKE_MIXER_CLASS(wyhash3_mix)
 MAKE_MIXER_CLASS(xxh3_mixer)
 
-using AllMixers = std::tuple<c_ettinger_mixer, c_fnv1a_64, c_lemire_stronglyuniversal, c_mum3_mixer,
-                             c_mumxmumxx1, c_mumxmumxx2, c_murmurhash3_fmix64, c_rrmxmx,
-                             c_rrxmrrxmsx_0, c_twang_mix64, c_wyhash3_mix, c_xxh3_mixer>;
+using AllMixers =
+    std::tuple<c_aes2, c_aes3, c_ettinger_mixer, c_fnv1a_64, c_lemire_stronglyuniversal,
+               c_mum3_mixer, c_mumxmumxx1, c_mumxmumxx2, c_murmurhash3_fmix64, c_rrmxmx,
+               c_rrxmrrxmsx_0, c_staffort_mix13, c_twang_mix64, c_wyhash3_mix, c_xxh3_mixer>;
