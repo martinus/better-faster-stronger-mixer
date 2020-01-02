@@ -52,10 +52,7 @@ def gen(name, is_reverse)
         exponents_max = exponents.max
     end
 
-    printf("* min: 2^%d\n", exponents_min)
-    printf("* max: 2^%d\n", exponents_max)
-    printf("* mean: 2^%4.1f\n", exponents_avg)
-    printf("\n");
+    printf("min: 2^%d, max: 2^%d, mean: 2^%4.1f\n\n", exponents_min, exponents_max, exponents_avg)
 
 end
 
