@@ -39,7 +39,7 @@ def gen(name, is_reverse)
             exponents += [exponent.to_i]
             printf("|%s%2d ", has_failed ? " " : ">", exponent)
         rescue
-            printf("|  -", has_failed ? " " : ">", exponent)
+            printf("|  - ", has_failed ? " " : ">", exponent)
         end
     end
     printf("\n\n")
