@@ -1,14 +1,28 @@
 #!/bin/env ruby
 
+=begin
+|      |  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 10 | 11 | 12 | 13 | 14 | 15
+|-----:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:
+| **0**| 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14
+|**16**| 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14
+|**16**| 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14
+|**32**| 14 | 14 | 14 |>40 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14
+|**48**| 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14 | 14
+=end
 def gen(name, is_reverse)
-    printf("%s %s:\n", name, is_reverse ? "reverse" : "identity")
-    printf("   |   0   1   2   3   4   5   6   7   8   9  10  11  12  13  14  15\n")
-    printf("---+----------------------------------------------------------------")
+    if (is_reverse) 
+        printf("### identity, rotation 0 - 63\n\n")
+    else
+        printf("### identity, rotation 0 - 63\n\n")
+    end
+
+    printf("|      |  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 10 | 11 | 12 | 13 | 14 | 15\n")
+    printf("|-----:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:")
 
     exponents = []
     64.times do |i|
         if i % 16 == 0
-            printf("\n%2d |", i)
+            printf("\n|**%2d**", i)
         end
 
         filename = sprintf("%s_%d_%02d.txt", name, is_reverse ? 1 : 0, i)
@@ -23,12 +37,12 @@ def gen(name, is_reverse)
                 exponent = m[1]
             end
             exponents += [exponent.to_i]
-            printf(" %s%2d", has_failed ? " " : ">", exponent)
+            printf("|%s%2d ", has_failed ? " " : ">", exponent)
         rescue
-            printf("   -", has_failed ? " " : ">", exponent)
+            printf("|  -", has_failed ? " " : ">", exponent)
         end
     end
-    printf("\n")
+    printf("\n\n")
     exponents_avg = 0
     exponents_min = 0
     exponents_max = 0
@@ -37,8 +51,14 @@ def gen(name, is_reverse)
         exponents_min = exponents.min
         exponents_max = exponents.max
     end
-    printf("min: %2d, max: %2d, avg: %4.1f\n\n", exponents_min, exponents_max, exponents_avg)
+
+    printf("* min: 2^%d\n", exponents_min)
+    printf("* max: 2^%d\n", exponents_max)
+    printf("* mean: 2^%4.1f\n", exponents_avg)
+    printf("\n");
+
 end
 
+printf("## %s\n\n", ARGV[0])
 gen(ARGV[0], false)
 gen(ARGV[0], true)
