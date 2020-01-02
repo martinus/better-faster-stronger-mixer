@@ -25,14 +25,16 @@ TEST_CASE_TEMPLATE_DEFINE("practrand_feeder" * doctest::skip(), Mixer, mixer_id)
     REQUIRE(isBitreverse <= 1);
 
     freopen(NULL, "wb", stdout); // Only necessary on Windows, but harmless.
-    BufferedWriter bufferedWrite(1024, stdout);
+    
+    // 1MiB buffer
+    BufferedWriter bufferedWrite(1024 * 1024 / 8, stdout);
 
     uint64_t ctr = 0;
     Mixer mixer{};
 
     if (isBitreverse) {
         while (true) {
-            bufferedWrite(mixer(bitreverse(rotr(ctr, rotation))));
+            bufferedWrite(mixer(bitreverse64(rotr(ctr, rotation))));
             ++ctr;
         }
     } else {

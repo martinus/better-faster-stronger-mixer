@@ -1,8 +1,8 @@
 #pragma once
 
-#include <array>
 #include <cstdint>
 
+template <typename T>
 struct BitReverseTable {
 public:
     constexpr BitReverseTable()
@@ -12,7 +12,7 @@ public:
         }
     }
 
-    constexpr uint8_t operator[](int idx) const {
+    constexpr T operator[](int idx) const {
         return mTab[idx];
     }
 
@@ -30,14 +30,22 @@ private:
     uint8_t mTab[256];
 };
 
-template <typename T>
-T bitreverse(T x) {
-    static constexpr BitReverseTable bitReverseTable;
-    T r = 0;
-    for (size_t i = 0; i < sizeof(T); ++i) {
-        r <<= 8;
-        r |= bitReverseTable[x & 0xff];
-        x >>= 8;
-    }
-    return r;
+inline uint8_t bitreverse8(uint8_t x) {
+    static constexpr BitReverseTable<uint8_t> t;
+    return t[x];
+}
+
+inline uint32_t bitreverse32(uint32_t x) {
+    static constexpr BitReverseTable<uint32_t> t;
+
+    return ((t[x & 0xff]) << 24) | ((t[(x >> 8) & 0xff]) << 16) | ((t[(x >> 16) & 0xff]) << 8) |
+           t[x >> 24];
+}
+
+inline uint64_t bitreverse64(uint64_t x) {
+    static constexpr BitReverseTable<uint64_t> t;
+
+    return ((t[x & 0xff]) << 56) | ((t[(x >> 8) & 0xff]) << 48) | ((t[(x >> 16) & 0xff]) << 40) |
+           ((t[(x >> 24) & 0xff]) << 32) | ((t[(x >> 32) & 0xff]) << 24) |
+           ((t[(x >> 40) & 0xff]) << 16) | ((t[(x >> 48) & 0xff]) << 8) | t[x >> 56];
 }
