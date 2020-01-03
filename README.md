@@ -1,6 +1,6 @@
 <a id="top"></a>
 
-# better-faster-stronger-mixer
+# Better Faster Stronger Mixer
 
 <!--ts-->
    * [better-faster-stronger-mixer](#better-faster-stronger-mixer)
@@ -20,7 +20,9 @@
       * [xxh3_mixer](#xxh3_mixer)
 <!--te-->
 
-Testing framework for the quest to find a fast &amp; strong mixer, e. g for hashtables.
+Testing framework for the quest to find a fast &amp; strong mixer, e. g. for hashtables. 
+
+![practrand results](docs/scatterplot.png)
 
 ## Benchmark Results
 
@@ -50,7 +52,7 @@ Generated with [nanobench](https://github.com/martinus/nanobench), g++ 9.2, `-O3
 
 # practrand results
 
-The testing protocol is by Pelle Evensen's blog post [Better, stronger mixer and a test procedure](http://mostlymangling.blogspot.com/2019/01/better-stronger-mixer-and-test-procedure.html):
+The testing protocol is taken from by Pelle Evensen's blog post [Better, stronger mixer and a test procedure](http://mostlymangling.blogspot.com/2019/01/better-stronger-mixer-and-test-procedure.html):
 
 Successive increasing numbers, which are rotated right, then optionally bitorder is reversed, are fed into a mixer. The mixer's output is fed into PractRand, which analyzes the quality of the generated number. So basically, the algorithm is this:
 
@@ -67,8 +69,6 @@ while (true) {
 In my tests, I run PractRand 0.95 with the arguments `RNG_test stdin64 -tf 2 -tlmin 10 -tlmax 40`. The test aborts when it detects a failure in the quality of the mixer results.
 
 Ideally, a mixer doesn't fail the practrand test and is as fast as possible. In the following plot I show the results of the mixers that I have already evaluated. Pareto optimums are green (I consider 2^10 still a failure).
-
-![practrand results](docs/scatterplot.png)
 
 ## FNV1A_Pippip
 
