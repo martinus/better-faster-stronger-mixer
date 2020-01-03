@@ -4,14 +4,15 @@
 
 <!--ts-->
    * [Better Faster Stronger Mixer](#better-faster-stronger-mixer)
-      * [Benchmark Results](#benchmark-results)
-   * [practrand results](#practrand-results)
-      * [FNV1A_Pippip](#fnv1a_pippip)
-      * [aes2](#aes2)
-      * [aes3](#aes3)
-      * [crc_mul](#crc_mul)
-      * [ettinger_mixer](#ettinger_mixer)
-      * [fnv1a_64](#fnv1a_64)
+   * [Mixing Speed](#mixing-speed)
+   * [Mixing Quality](#mixing-quality)
+   * [Results](#results)
+      * [FNV1A_Pippip](#fnv1a_pippip),
+        [aes2](#aes2),
+        [aes3](#aes3),
+        [crc_mul](#crc_mul),
+        [ettinger_mixer](#ettinger_mixer),
+        [fnv1a_64](#fnv1a_64)
       * [lemire_stronglyuniversal](#lemire_stronglyuniversal)
       * [mum3_mixer](#mum3_mixer)
       * [mumxmumxx1](#mumxmumxx1)
