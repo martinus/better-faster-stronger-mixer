@@ -28,7 +28,9 @@
      [xxh3_mixer](#xxh3_mixer)
 <!--te-->
 
-Testing framework for the quest to find a fast &amp; strong mixer, e. g. for hashtables. 
+Testing framework for the quest to find a fast &amp; strong mixer, e. g. for hashtables.
+Many modern hashtables like [robin_hood::unordered_map](https://github.com/martinus/robin-hood-hashing) or
+[Abseil's hash tables](https://abseil.io/docs/cpp/guides/container#hash-tables) require high quality hashing for their tables to work efficiently.
 
 # Mixing Speed
 
