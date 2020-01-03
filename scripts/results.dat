@@ -1,0 +1,20 @@
+# ops/sec, practrand minimum, name
+799333015.72 10 0xffa0a0 FNV1A\\_Pippip
+245946194.95 13 0xffa0a0 aes2
+188074017.10 19 0xffa0a0 aes3
+531169080.27 13 0xa0d700 crc\\_mul
+241327825.61 12 0xffa0a0 ettinger\\_mixer
+ 94038215.44 10 0xffa0a0 fnv1a\\_64
+318306298.71 10 0xffa0a0 lemire\\_stronglyuniversal
+290680379.07 16 0xffa0a0 mum3\\_mixer
+# 319669215.72 mumxmumxx1
+290557308.10 40 0xa0d700 mumxmumxx2
+# 319758603.22 mumxmumxx3
+266296012.27 14 0xffa0a0 murmurhash3\\_fmix64
+639462552.87 10 0xffa0a0 robin\\_hood\\_hash\\_int
+240220638.93 22 0xffa0a0 rrmxmx
+221836707.80 39 0xffa0a0 rrxmrrxmsx\\_0
+266272189.35 16 0xffa0a0 staffort\\_mix13
+187874430.87 13 0xffa0a0 twang\\_mix64
+260791216.16 35 0xffa0a0 wyhash3\\_mix
+167930110.01 15 0xffa0a0 xxh3\\_mixer
