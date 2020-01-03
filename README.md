@@ -2,27 +2,36 @@
 
 # Better Faster Stronger Mixer
 
+
+![practrand results](docs/scatterplot.png)
+
+
 <!--ts-->
-   * [better-faster-stronger-mixer](#better-faster-stronger-mixer)
+   * [Better Faster Stronger Mixer](#better-faster-stronger-mixer)
       * [Benchmark Results](#benchmark-results)
    * [practrand results](#practrand-results)
+      * [FNV1A_Pippip](#fnv1a_pippip)
       * [aes2](#aes2)
       * [aes3](#aes3)
       * [crc_mul](#crc_mul)
+      * [ettinger_mixer](#ettinger_mixer)
       * [fnv1a_64](#fnv1a_64)
       * [lemire_stronglyuniversal](#lemire_stronglyuniversal)
       * [mum3_mixer](#mum3_mixer)
+      * [mumxmumxx1](#mumxmumxx1)
       * [mumxmumxx2](#mumxmumxx2)
+      * [mumxmumxx3](#mumxmumxx3)
       * [murmurhash3_fmix64](#murmurhash3_fmix64)
       * [robin_hood_hash_int](#robin_hood_hash_int)
+      * [rrmxmx](#rrmxmx)
+      * [rrxmrrxmsx_0](#rrxmrrxmsx_0)
       * [staffort_mix13](#staffort_mix13)
       * [twang_mix64](#twang_mix64)
+      * [wyhash3_mix](#wyhash3_mix)
       * [xxh3_mixer](#xxh3_mixer)
 <!--te-->
 
 Testing framework for the quest to find a fast &amp; strong mixer, e. g. for hashtables. 
-
-![practrand results](docs/scatterplot.png)
 
 ## Benchmark Results
 
