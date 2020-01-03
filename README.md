@@ -135,6 +135,8 @@ min: 2^13, max: 2^16, mean: 2^14.7
 
 ## aes3
 
+TODO only tested up to `-tlmax 20`
+
 ### identity, rotation 0 - 63
 
 |      |  0 |  1 |  2 |  3 |  4 |  5 |  6 |  7 |  8 |  9 | 10 | 11 | 12 | 13 | 14 | 15
