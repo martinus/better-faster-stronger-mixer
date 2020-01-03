@@ -21,5 +21,5 @@ set grid back ls 12
 
 set format y "%.0s"
 
-plot 'results.dat' using 2:1:4:3 with labels left rotate by 45 font "Verdana,8" point pt 7 ps 2 lc rgb variable offset char 0.3,0.3 notitle
+plot '../scripts/results.dat' using 2:1:4:3 with labels left rotate by 45 font "Verdana,8" point pt 7 ps 2 lc rgb variable offset char 0.3,0.3 notitle
 
