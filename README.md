@@ -5,7 +5,8 @@
 <!--ts-->
    * [Mixing Speed](#mixing-speed)
    * [Mixing Quality](#mixing-quality)
-   * [Results](#results):
+   * [Results](#results)
+   * Mixers:
      [FNV1A_Pippip](#fnv1a_pippip),
      [aes2](#aes2),
      [aes3](#aes3),
