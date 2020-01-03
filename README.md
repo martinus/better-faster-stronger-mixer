@@ -3,7 +3,6 @@
 # Better Faster Stronger Mixer
 
 <!--ts-->
-   * [Better Faster Stronger Mixer](#better-faster-stronger-mixer)
    * [Mixing Speed](#mixing-speed)
    * [Mixing Quality](#mixing-quality)
    * [Results](#results):
@@ -30,7 +29,7 @@
 
 Testing framework for the quest to find a fast &amp; strong mixer, e. g. for hashtables. 
 
-## Mixing Speed
+# Mixing Speed
 
 Generated with [nanobench](https://github.com/martinus/nanobench), g++ 9.2, `-O3 -march=native`, on an Intel i7-8700 CPU locked to 3.20GHz
 
