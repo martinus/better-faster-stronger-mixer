@@ -2,10 +2,6 @@
 
 # Better Faster Stronger Mixer
 
-
-![practrand results](docs/scatterplot.png)
-
-
 <!--ts-->
    * [Better Faster Stronger Mixer](#better-faster-stronger-mixer)
       * [Benchmark Results](#benchmark-results)
@@ -33,7 +29,7 @@
 
 Testing framework for the quest to find a fast &amp; strong mixer, e. g. for hashtables. 
 
-## Benchmark Results
+## Mixing Speed
 
 Generated with [nanobench](https://github.com/martinus/nanobench), g++ 9.2, `-O3 -march=native`, on an Intel i7-8700 CPU locked to 3.20GHz
 
@@ -59,7 +55,7 @@ Generated with [nanobench](https://github.com/martinus/nanobench), g++ 9.2, `-O3
 |                3.83 |      260,791,216.16 |    0.0% |           14.00 |           12.25 |  1.143 |           0.00 |    0.0% |      0.00 | `wyhash3_mix`
 |                5.95 |      167,930,110.01 |    0.0% |           21.00 |           19.03 |  1.104 |           0.00 |    0.0% |      0.00 | `xxh3_mixer`
 
-# practrand results
+# Mixing Quality
 
 The testing protocol is taken from by Pelle Evensen's blog post [Better, stronger mixer and a test procedure](http://mostlymangling.blogspot.com/2019/01/better-stronger-mixer-and-test-procedure.html):
 
@@ -78,6 +74,11 @@ while (true) {
 In my tests, I run PractRand 0.95 with the arguments `RNG_test stdin64 -tf 2 -tlmin 10 -tlmax 40`. The test aborts when it detects a failure in the quality of the mixer results.
 
 Ideally, a mixer doesn't fail the practrand test and is as fast as possible. In the following plot I show the results of the mixers that I have already evaluated. Pareto optimums are green (I consider 2^10 still a failure).
+
+# Results
+
+![practrand results](docs/scatterplot.png)
+
 
 ## FNV1A_Pippip
 
