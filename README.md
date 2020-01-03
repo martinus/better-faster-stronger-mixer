@@ -82,6 +82,9 @@ Ideally, a mixer doesn't fail the practrand test and is as fast as possible. In 
 
 ![practrand results](docs/scatterplot.png)
 
+An ideal mixer should be in the upper right corner. The pareto front is colored green (except anything that already
+fails on tlmax=10. I consider these mixers as too bad for practical use).
+
 
 ## FNV1A_Pippip
 
