@@ -12,11 +12,9 @@ inline uint64_t mumxmumxx2(uint64_t v) {
     return mumx(mumx(v, a), mumx(v, b));
 }
 
-// 19
 inline uint64_t mumxmumxx_work_in_progress(uint64_t v) {
-    static constexpr auto wyp0 = UINT64_C(0xa0761d6478bd642f);
-    //static constexpr auto wyp1 = UINT64_C(0xe7037ed1a0b428db);
-    static constexpr auto wyp4 = UINT64_C(0x1d8e4e27c47d124f);
+    static constexpr auto a = UINT64_C(0xa0761d6478bd642f);
+    static constexpr auto b = UINT64_C(0xe7037ed1a0b428db);
 
-    return mumx(mumx(v, wyp0), wyp4);
+    return mumx(mumx(v, a), b);
 }
