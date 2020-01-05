@@ -50,7 +50,9 @@ add_executable(${APP_NAME}
     src/unit/test_bitreverse.cpp
 
     src/benchmark.cpp
+    src/coverage.cpp
     src/practrand_feeder.cpp
+    src/randomseed.cpp
     src/show_hash.cpp
 )
 

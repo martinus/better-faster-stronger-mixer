@@ -2,7 +2,7 @@
 reset
 
 # png
-set terminal pngcairo size 882,700 enhanced font 'Verdana,10'
+set terminal pngcairo size 882,650 enhanced font 'Verdana,10'
 set output '../docs/scatterplot.png'
 
 #set border linewidth 1.5
@@ -21,5 +21,5 @@ set grid back ls 12
 
 set format y "%.0s"
 
-plot '../scripts/results.dat' using 2:1:4:3 with labels left rotate by 45 font "Verdana,8" point pt 7 ps 2 lc rgb variable offset char 0.3,0.3 notitle
+plot '../scripts/results.dat' using 2:1:4:3 with labels left rotate by 32 font "Verdana,8" point pt 7 ps 2 lc rgb variable offset char 0.3,0.1 notitle
 

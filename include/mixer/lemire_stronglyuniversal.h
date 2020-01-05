@@ -25,14 +25,16 @@ min: 10, max: 14, avg: 12.7
 
 // Source: https://lemire.me/blog/2018/08/15/fast-strongly-universal-64-bit-hashing-everywhere/
 inline uint64_t lemire_stronglyuniversal(uint64_t x) noexcept {
-    auto lo = x & UINT64_C(0x00000000ffffffff);
-    auto hi = x >> 32;
+    static constexpr uint64_t a1 = UINT64_C(0x65d200ce55b19ad8);
+    static constexpr uint64_t b1 = UINT64_C(0x4f2162926e40c299);
+    static constexpr uint64_t c1 = UINT64_C(0x162dd799029970f8);
+    static constexpr uint64_t a2 = UINT64_C(0x68b665e6872bd1f4);
+    static constexpr uint64_t b2 = UINT64_C(0xb6cfcf9d79b51db2);
+    static constexpr uint64_t c2 = UINT64_C(0x7a2b92ae912898c2);
 
-    auto r1 = (UINT64_C(0x8532c5125ef9bbee) * lo + UINT64_C(0x61af3eb1d51b4e89) * hi +
-               UINT64_C(0xf8eea90faec9c802)) >>
-              32;
-    auto r2 = (UINT64_C(0x74d28e483bf43464) * lo + UINT64_C(0x8f78acfe4dc2982c) * hi +
-               UINT64_C(0x11ae6912bca65735)) >>
-              32;
-    return (r1 << 32) | r2;
+    uint64_t low = static_cast<uint32_t>(x);
+    uint64_t high = x >> 32;
+
+    return ((a1 * low + b1 * high + c1) >> 32) |
+           ((a2 * low + b2 * high + c2) & UINT64_C(0xFFFFFFFF00000000));
 }
