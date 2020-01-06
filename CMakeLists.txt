@@ -27,6 +27,7 @@ include(Colors)
 include(CTest)
 include(Doctest)
 include(Nanobench)
+include(RobinHood)
 include(Documentation)
 #include(LTO)
 include(Misc)
@@ -46,10 +47,12 @@ set(APP_NAME mixer)
 add_executable(${APP_NAME}
     src/app/doctest.cpp
     src/app/nanobench.cpp
+    src/constant_optimizer/ColorTable.cpp
 
     src/unit/test_bitreverse.cpp
 
     src/benchmark.cpp
+    src/constant_optimizer.cpp
     src/coverage.cpp
     src/practrand_feeder.cpp
     src/randomseed.cpp
@@ -61,6 +64,7 @@ target_include_directories(${APP_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/include)
 
 target_link_libraries(${APP_NAME} PRIVATE doctest)
 target_link_libraries(${APP_NAME} PRIVATE nanobench)
+target_link_libraries(${APP_NAME} PRIVATE robin_hood)
 
 target_set_warnings(${APP_NAME} ENABLE ALL AS_ERROR ALL DISABLE Annoying) # Set warnings (if needed).
 #target_enable_lto(${APP_NAME} optimized)  # enable link-time-optimization if available for non-debug configurations

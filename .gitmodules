@@ -4,3 +4,6 @@
 [submodule "external/nanobench"]
 	path = external/nanobench
 	url = https://github.com/martinus/nanobench
+[submodule "external/robin_hood"]
+	path = external/robin_hood
+	url = https://github.com/martinus/robin-hood-hashing
