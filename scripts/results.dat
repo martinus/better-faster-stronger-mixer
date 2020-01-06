@@ -8,8 +8,8 @@
 318306298.71 10 0xffa0a0 lemire\\_stronglyuniversal
 290680379.07 16 0xffa0a0 mum3\\_mixer
 319669215.72 28 0xa0d700 mumxmumxx1
-290557308.10 40 0xa0d700 mumxmumxx2
-# 319758603.22 mumxmumxx3
+290557308.10 40 0xffa0a0 mumxmumxx2
+315323082.82 40 0xa0d700 mumxmumxx3
 266296012.27 14 0xffa0a0 murmurhash3\\_fmix64
 639462552.87 10 0xffa0a0 robin\\_hood\\_hash\\_int
 240220638.93 22 0xffa0a0 rrmxmx
@@ -19,4 +19,4 @@
 260791216.16 40 0xffa0a0 wyhash3\\_mix
 167930110.01 15 0xffa0a0 xxh3\\_mixer
 210905748.02 42 0xa0d700 nasam
-193519486.34 40 0xffa0a0 ettinger\\_mixer2
+193519486.34 42 0xffa0a0 ettinger\\_pelican

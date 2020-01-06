@@ -13,20 +13,21 @@ uint16_t mumx16(uint16_t a, uint16_t b) {
     return static_cast<uint16_t>(m);
 }
 
-// coverage: 63.2199%
+// 63.2199% coverage
 uint32_t mumx32(uint32_t a, uint32_t b) {
     auto m = static_cast<uint64_t>(a) * static_cast<uint64_t>(b);
     m ^= m >> 32;
     return static_cast<uint32_t>(m);
 }
 
-inline uint16_t mumxmumxx2_16(uint16_t v, uint16_t a, uint16_t b) {
-    return mumx16(mumx16(v, a), mumx16(v, b));
-}
-
-// coverage: 63,2098%
+// 63,21% coverage
 inline uint32_t mumxmumxx2_32(uint32_t v, uint32_t a, uint32_t b) {
     return mumx32(mumx32(v, a), mumx32(v, b));
+}
+
+// 63.21% coverage:
+inline uint32_t mumxmumxx3_32(uint32_t v, uint32_t , uint32_t b) {
+    return (v ^ rotr(v, 13) ^ rotr(v ^ b, 23));
 }
 
 //////////////
@@ -45,7 +46,7 @@ inline uint32_t wyhash3_mix32(uint32_t v, uint32_t wyp0, uint32_t wyp1, uint32_t
     return mumx32(mumx32(a ^ wyp0, b ^ wyp1), UINT16_C(8) ^ wyp4);
 }
 
-// 39.3449% coverage
+// 39.34% coverage
 inline uint32_t wyhash3_rand(uint32_t v, uint32_t wyp0) {
     return mumx32(v ^ wyp0, v);
 }
@@ -65,7 +66,7 @@ inline uint32_t fmix32(uint32_t h) noexcept {
 
 ///////
 
-// 74.6856% coverage
+// 74.69% coverage
 inline uint32_t lemire_stronglyuniversal32(uint32_t x, uint32_t k1, uint32_t k2, uint32_t k3,
                                            uint32_t k4, uint32_t k5, uint32_t k6) noexcept {
     uint32_t lo = x & UINT32_C(0x0000ffff);
@@ -92,7 +93,6 @@ inline uint32_t xorshift2(uint32_t h, uint32_t a) noexcept {
     return a ^ h ^ (h >> 17);
 }
 
-
 inline uint32_t rotrxx(uint32_t x) noexcept {
     return x ^ rotr(x, 25) ^ rotr(x, 13);
 }
@@ -102,17 +102,17 @@ inline uint32_t rotrx(uint32_t x) noexcept {
     return x ^ rotr(x, 25);
 }
 
-
-
 TEST_CASE("coverage") {
+    std::cout << std::hex << rotr(0xe7037ed1a0b428db , 47) << std::endl;
+    
     // can't allocate bitset on the stack => segfault
     static constexpr size_t Size = UINT64_C(1) << 32;
     auto bits = new std::bitset<Size>();
 
     sfc64 rng;
     auto k1 = static_cast<uint32_t>(rng() | 1);
-#if 0    
     auto k2 = static_cast<uint32_t>(rng() | 1);
+#if 0    
     auto k3 = static_cast<uint16_t>(rng() | 1);
 
     auto k4 = static_cast<uint32_t>(rng() | 1);
@@ -125,7 +125,8 @@ TEST_CASE("coverage") {
         // bits->set(wyhash3_mix32(i, k1, k2, k3));
         // bits->set(fmix32(i));
         // bits->set(lemire_stronglyuniversal32(i, k1, k2, k3, k4, k5, k6));
-        bits->set(xorshift2(i, k1));
+        // bits->set(xorshift2(i, k1));
+        bits->set(mumxmumxx3_32(i, k1, k2));
         // bits->set(wyhash3_rand(i, k1));
     }
 

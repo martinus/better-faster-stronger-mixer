@@ -13,7 +13,7 @@ inline uint64_t ettinger_mixer1(uint64_t z) {
 }
 
 // Source: https://github.com/tommyettinger/sarong/blob/master/src/main/java/sarong/PelicanRNG.java
-inline uint64_t ettinger_mixer2(uint64_t z) {
+inline uint64_t ettinger_pelican(uint64_t z) {
     z ^= ((z << 41) | (z >> 23)) ^ ((z << 17) | (z >> 47)) ^ UINT64_C(0xD1B54A32D192ED03);
     z *= UINT64_C(0xAEF17502108EF2D9);
     z ^= (z >> 43) ^ (z >> 31) ^ (z >> 23);
