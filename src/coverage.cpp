@@ -87,28 +87,22 @@ inline uint32_t xorshift(uint32_t h) noexcept {
     return h;
 }
 
+// 100% coverage
+inline uint32_t xorshift2(uint32_t h, uint32_t a) noexcept {
+    return a ^ h ^ (h >> 17);
+}
+
+
+inline uint32_t rotrxx(uint32_t x) noexcept {
+    return x ^ rotr(x, 25) ^ rotr(x, 13);
+}
+
+// 50% coverage
 inline uint32_t rotrx(uint32_t x) noexcept {
-    auto a = x ^ rotr(x, 25) ^ rotr(x, 13);
-    return mumx32(a, 0x85ebca6b) * x;
+    return x ^ rotr(x, 25);
 }
 
-TEST_CASE("coverage2") {
-    // can't allocate bitset on the stack => segfault
-    static constexpr size_t Size = UINT64_C(1) << 32;
-    auto bits = new std::bitset<UINT64_C(1) << 32>();
-    sfc64 rng;
-    auto k1 = static_cast<uint32_t>(rng() | 1);
-    auto k2 = static_cast<uint32_t>(rng() | 1);
 
-    uint32_t acc = 0;
-    for (size_t i = 0; i < Size; ++i) {
-        acc = mumxmumxx2_32(acc ^ static_cast<uint32_t>(i), k1, k2);
-        bits->set(acc & 0xffff);
-    }
-
-    auto ratio = (100.0 * static_cast<double>(bits->count()) / static_cast<double>(Size));
-    std::cout << ratio << "% coverage (" << bits->count() << " of " << Size << ")" << std::endl;
-}
 
 TEST_CASE("coverage") {
     // can't allocate bitset on the stack => segfault
@@ -116,8 +110,8 @@ TEST_CASE("coverage") {
     auto bits = new std::bitset<Size>();
 
     sfc64 rng;
-#if 0    
     auto k1 = static_cast<uint32_t>(rng() | 1);
+#if 0    
     auto k2 = static_cast<uint32_t>(rng() | 1);
     auto k3 = static_cast<uint16_t>(rng() | 1);
 
@@ -131,7 +125,7 @@ TEST_CASE("coverage") {
         // bits->set(wyhash3_mix32(i, k1, k2, k3));
         // bits->set(fmix32(i));
         // bits->set(lemire_stronglyuniversal32(i, k1, k2, k3, k4, k5, k6));
-        bits->set(rotrx(i));
+        bits->set(xorshift2(i, k1));
         // bits->set(wyhash3_rand(i, k1));
     }
 
