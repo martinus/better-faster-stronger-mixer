@@ -2,6 +2,7 @@
 #include "doctest.h"
 #include "sfc64.h"
 
+#include <algorithm>
 #include <bitset>
 #include <iostream>
 
@@ -13,11 +14,26 @@ uint16_t mumx16(uint16_t a, uint16_t b) {
     return static_cast<uint16_t>(m);
 }
 
+uint16_t muma16(uint16_t a, uint16_t b) {
+    auto m = static_cast<uint32_t>(a) * static_cast<uint32_t>(b);
+    m += m >> 16;
+    return static_cast<uint16_t>(m);
+}
+
 // 63.2199% coverage
 uint32_t mumx32(uint32_t a, uint32_t b) {
     auto m = static_cast<uint64_t>(a) * static_cast<uint64_t>(b);
     m ^= m >> 32;
     return static_cast<uint32_t>(m);
+}
+
+// 98.8868% coverage with prime 325117817
+// 96.9752% prime 1766600701
+// 76.0819% prime 4178408657
+// 89.0185% coverage with UINT32_C(0x9E3779B1)
+uint32_t muma32(uint32_t a, uint32_t b) {
+    auto m = static_cast<uint64_t>(a) * static_cast<uint64_t>(b);
+    return static_cast<uint32_t>(m) + static_cast<uint32_t>(m >> 32);
 }
 
 // 63,21% coverage
@@ -26,7 +42,7 @@ inline uint32_t mumxmumxx2_32(uint32_t v, uint32_t a, uint32_t b) {
 }
 
 // 63.21% coverage:
-inline uint32_t mumxmumxx3_32(uint32_t v, uint32_t , uint32_t b) {
+inline uint32_t mumxmumxx3_32(uint32_t v, uint32_t, uint32_t b) {
     return (v ^ rotr(v, 13) ^ rotr(v ^ b, 23));
 }
 
@@ -102,17 +118,65 @@ inline uint32_t rotrx(uint32_t x) noexcept {
     return x ^ rotr(x, 25);
 }
 
+//
+inline uint32_t mumx_mumx_rrxx_1_32(uint32_t v) {
+    static constexpr auto a = UINT32_C(1766600701);
+    return muma32(v, a); // + (v ^ rotr(v, 4) ^ rotr(v ^ a, 17));
+}
+
+class Bitset {
+public:
+    Bitset(size_t numBits)
+        : mData((numBits + 63) / 64) {}
+
+    void set(uint32_t idx) noexcept {
+        mData[idx >> 6] |= UINT64_C(1) << (idx & 0x3f);
+    }
+
+    bool setAndGet(uint32_t idx) noexcept {
+        auto& w64 = mData[idx >> 6];
+        auto mask = UINT64_C(1) << (idx & 0x3f);
+        bool isSet = (w64 & mask) != 0;
+        w64 |= mask;
+        return isSet;
+    }
+
+    void clear() {
+        std::memset(mData.data(), 0, mData.size() * 8);
+    }
+
+    void prefetchWrite(uint32_t idx) const noexcept {
+        __builtin_prefetch(mData.data() + (idx >> 6), 1, 0);
+    }
+
+    size_t count() const noexcept {
+        size_t s = 0;
+        for (auto d : mData) {
+            s += std::bitset<64>(d).count();
+        }
+        return s;
+    }
+
+private:
+    std::vector<uint64_t> mData;
+};
+
+// real    0m42,976s
+// real    0m39,125s prefetch 16
+
+// prefetch idea from
+// https://encode.su/threads/3207-ZrHa_update-a-fast-construction-for-iterated-hashing code
+// https://gist.github.com/svpv/c305e63110dfc4ab309ad7586ceea277
 TEST_CASE("coverage") {
-    std::cout << std::hex << rotr(0xe7037ed1a0b428db , 47) << std::endl;
-    
     // can't allocate bitset on the stack => segfault
     static constexpr size_t Size = UINT64_C(1) << 32;
-    auto bits = new std::bitset<Size>();
+    // auto bits = new std::bitset<Size>();
+    auto bits = Bitset(Size);
 
-    sfc64 rng;
+    sfc64 rng(1234);
+#if 0    
     auto k1 = static_cast<uint32_t>(rng() | 1);
     auto k2 = static_cast<uint32_t>(rng() | 1);
-#if 0    
     auto k3 = static_cast<uint16_t>(rng() | 1);
 
     auto k4 = static_cast<uint32_t>(rng() | 1);
@@ -120,16 +184,72 @@ TEST_CASE("coverage") {
     auto k6 = static_cast<uint16_t>(rng() | 1);
 #endif
 
+    std::array<uint32_t, 64> tmp;
+    tmp.fill(mumx32(0, 0x7849ae79));
     for (size_t i = 0; i < Size; ++i) {
-        // bits->set(mumx32(i, k1));
-        // bits->set(wyhash3_mix32(i, k1, k2, k3));
-        // bits->set(fmix32(i));
-        // bits->set(lemire_stronglyuniversal32(i, k1, k2, k3, k4, k5, k6));
-        // bits->set(xorshift2(i, k1));
-        bits->set(mumxmumxx3_32(i, k1, k2));
-        // bits->set(wyhash3_rand(i, k1));
+        bits.set(tmp[i % tmp.size()]);
+        auto v = mumx32(i, 0x7849ae79);
+        bits.prefetchWrite(v);
+        tmp[i % tmp.size()] = v;
+    }
+    for (auto v : tmp) {
+        bits.set(v);
     }
 
-    auto ratio = (100.0 * static_cast<double>(bits->count()) / static_cast<double>(Size));
-    std::cout << ratio << "% coverage (" << bits->count() << " of " << Size << ")" << std::endl;
+    auto ratio = (100.0 * static_cast<double>(bits.count()) / static_cast<double>(Size));
+    std::cout << ratio << "% coverage (" << bits.count() << " of " << Size << ")" << std::endl;
+}
+
+TEST_CASE("coverage_optimizer") {
+    static constexpr size_t Size = UINT64_C(1) << 32;
+    sfc64 rng;
+    auto bits = Bitset(Size);
+
+    while (true) {
+        auto k = static_cast<uint32_t>(rng() | 1);
+
+        std::array<uint32_t, 64> tmp;
+        for (size_t i = 0; i < 64; ++i) {
+            tmp[i] = mumx32(i, k);
+        }
+
+        size_t i = 64;
+        for (; i < Size; ++i) {
+            if (bits.setAndGet(tmp[i % tmp.size()])) {
+                break;
+            }
+            auto v = mumx32(i, k);
+            bits.prefetchWrite(v);
+            tmp[i % tmp.size()] = v;
+        }
+
+        auto ratio = (100.0 * static_cast<double>(bits.count()) / static_cast<double>(Size));
+        std::cout << std::dec << i << " for " << std::hex << "UINT32_C(0x" << k << "). " << std::dec
+                  << ratio << "% coverage (" << bits.count() << " of " << Size << ")" << std::endl;
+
+        bits.clear();
+    }
+}
+
+TEST_CASE("coverage_optimizer16") {
+    static constexpr size_t Size = UINT64_C(1) << 16;
+    sfc64 rng;
+    auto bits = Bitset(Size);
+
+    std::vector<std::pair<size_t, size_t>> data;
+    for (size_t k = 0; k < Size; ++k) {
+        bits.clear();
+        for (size_t i = 0; i < Size; ++i) {
+            bits.set(muma16(i, k));
+        }
+
+        // auto ratio = (100.0 * static_cast<double>(bits.count()) / static_cast<double>(Size));
+        data.emplace_back(bits.count(), k);
+    }
+
+    std::sort(data.begin(), data.end());
+    for (size_t i = 0; i < data.size(); ++i) {
+        //std::cout << data[i].first << " " << std::bitset<16>(data[i].second) << std::endl;
+        std::cout << data[i].first << std::endl;
+    }
 }
