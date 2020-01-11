@@ -1,10 +1,13 @@
 #include "AllMixersWithClasses.h"
 #include "doctest.h"
 
+#include <bitset>
 #include <cstdio>
 #include <iomanip>
 #include <iostream>
+#include <map>
 #include <sstream>
+#include <vector>
 
 template <typename T>
 std::string to_hex(T x) {
@@ -15,10 +18,12 @@ std::string to_hex(T x) {
 
 template <typename Mixer>
 void show(uint64_t n) {
-    std::cout << to_hex(n) << " " << to_hex(Mixer{}(n)) << " " << Mixer::name() << std::endl;
+    auto mixed = Mixer{}(n);
+    std::cout << to_hex(n) << " " << to_hex(mixed) << " " << std::bitset<64>(mixed) << " "
+              << Mixer::name() << std::endl;
 }
 
-TEST_CASE_TEMPLATE_DEFINE("show" * doctest::skip(), Mixer, mixer_id) {
+TEST_CASE_TEMPLATE_DEFINE("show" * doctest::skip(), Mixer, mixer_id1) {
     for (auto x :
          {UINT64_C(0x0000000000000000), UINT64_C(0x0000000000000001), UINT64_C(0x0000000000000003),
           UINT64_C(0x0000000000000007), UINT64_C(0x0101010101010101), UINT64_C(0x0123456789abcdef),
@@ -35,5 +40,11 @@ TEST_CASE_TEMPLATE_DEFINE("show" * doctest::skip(), Mixer, mixer_id) {
     }
     std::cout << std::endl;
 }
+TEST_CASE_TEMPLATE_APPLY(mixer_id1, AllMixers);
 
-TEST_CASE_TEMPLATE_APPLY(mixer_id, AllMixers);
+TEST_CASE_TEMPLATE_DEFINE("show_sequential" * doctest::skip(), Mixer, mixer_id2) {
+    for (uint64_t x = 0; x < 100; ++x) {
+        show<Mixer>(x);
+    }
+}
+TEST_CASE_TEMPLATE_APPLY(mixer_id2, AllMixers);

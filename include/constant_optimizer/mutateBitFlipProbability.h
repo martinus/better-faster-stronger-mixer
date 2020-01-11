@@ -9,6 +9,16 @@ void mutateBitFlipProbability(std::array<uint64_t, S>* vals, sfc64* rngPtr) {
     // flip probability 0b111111: (1 - 1/64)^64 = 13% no-flip probability
     auto& rng = *rngPtr;
 
+#if 0
+    //if (rng(10) == 0) {
+        for (auto& v : *vals) {
+            v = rng();
+        }
+
+        return;
+    //}
+#endif
+
     // flip at least one bit
     (*vals)[rng(vals->size())] ^= UINT64_C(1) << rng(64);
 
