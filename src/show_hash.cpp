@@ -1,5 +1,6 @@
 #include "AllMixersWithClasses.h"
 #include "doctest.h"
+#include "fmt/to_hex.h"
 
 #include <bitset>
 #include <cstdio>
@@ -8,13 +9,6 @@
 #include <map>
 #include <sstream>
 #include <vector>
-
-template <typename T>
-std::string to_hex(T x) {
-    std::stringstream ss;
-    ss << std::setfill('0') << std::setw(sizeof(T) * 2) << std::hex << std::right << x;
-    return ss.str();
-}
 
 template <typename Mixer>
 void show(uint64_t n) {
@@ -46,5 +40,12 @@ TEST_CASE_TEMPLATE_DEFINE("show_sequential" * doctest::skip(), Mixer, mixer_id2)
     for (uint64_t x = 0; x < 100; ++x) {
         show<Mixer>(x);
     }
+
+    for (uint64_t x = 0; x < 8; ++x) {
+        for (uint64_t y = 0; y < 8; ++y) {
+            show<Mixer>((x << 32) | y);
+        }
+    }
 }
+
 TEST_CASE_TEMPLATE_APPLY(mixer_id2, AllMixers);

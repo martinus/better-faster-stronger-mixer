@@ -38,3 +38,19 @@ inline uint64_t lemire_stronglyuniversal(uint64_t x) noexcept {
     return ((a1 * low + b1 * high + c1) >> 32) |
            ((a2 * low + b2 * high + c2) & UINT64_C(0xFFFFFFFF00000000));
 }
+
+// Source: https://lemire.me/blog/2018/08/15/fast-strongly-universal-64-bit-hashing-everywhere/
+inline uint64_t lemire_stronglyuniversal_32(uint64_t x) noexcept {
+    // inspired by lemire's strongly universal hashing
+    // https://lemire.me/blog/2018/08/15/fast-strongly-universal-64-bit-hashing-everywhere/
+    //
+    // Instead of shifts, we use rotations so we don't lose any bits.
+    //
+    // Added a final multiplcation with a constant for more mixing. It is most important that the
+    // lower bits are well mixed.
+    static constexpr uint64_t b = UINT64_C(0xff51afd7ed558ccd);
+    static constexpr uint64_t a = UINT64_C(0xc4ceb9fe1a85ec53);
+    static constexpr uint64_t c = UINT64_C(0xbf58476d1ce4e5b9);
+
+    return rotr(a * rotr(x, 32U) + b * x, 32U) * c;
+}

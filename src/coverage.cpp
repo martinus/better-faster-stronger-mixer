@@ -1,5 +1,8 @@
+#include "AllMixersWithClasses.h"
 #include "bitops/rot.h"
 #include "doctest.h"
+#include "fmt/to_hex.h"
+#include "robin_hood.h"
 #include "sfc64.h"
 
 #include <algorithm>
@@ -43,6 +46,7 @@ inline uint32_t mumxmumxx2_32(uint32_t v, uint32_t a, uint32_t b) {
 
 // 63.21% coverage:
 inline uint32_t mumxmumxx3_32(uint32_t v, uint32_t, uint32_t b) {
+    v *= 325117817;
     return (v ^ rotr(v, 13) ^ rotr(v ^ b, 23));
 }
 
@@ -249,7 +253,74 @@ TEST_CASE("coverage_optimizer16") {
 
     std::sort(data.begin(), data.end());
     for (size_t i = 0; i < data.size(); ++i) {
-        //std::cout << data[i].first << " " << std::bitset<16>(data[i].second) << std::endl;
+        // std::cout << data[i].first << " " << std::bitset<16>(data[i].second) << std::endl;
         std::cout << data[i].first << std::endl;
+    }
+}
+
+uint64_t dummyhash(uint64_t x) {
+    uint64_t h;
+    umul128(x, UINT64_C(0xa0761d6478bd642f), &h);
+    return h;
+}
+
+TEST_CASE("find_collisions") {
+    auto mask = UINT64_C(0xfffFFFFF);
+
+    uint64_t x = 0;
+    uint64_t pre = 0;
+    while (true) {
+        auto h = robin_hood_hash_int(x);
+        //auto h = wyhash3_mix(x);
+        if (0 == (h & mask)) {
+            std::cout << x << " " << (x - pre) << " -> " << to_hex(h) << std::endl;
+            pre = x;
+        }
+        x += 4056985630;
+    }
+}
+
+TEST_CASE("collisions") {
+
+    std::vector<size_t> vec(1U << 20);
+    auto mask = vec.size() - 1;
+    for (size_t i = 0; i < 100000000; ++i) {
+        auto x = i << 35;
+        //auto h = robin_hood_hash_int(x);
+        auto h = dummyhash(x);
+        // auto h = mumx_mumx_rrxx_1(x);
+        // auto h = nasam(x);
+        // auto h = i * UINT64_C(0xa0761d6478bd642f);
+        ++vec[h & mask];
+    }
+
+    std::sort(vec.begin(), vec.end());
+    size_t count = 100;
+    for (size_t i = 0; i <= count; ++i) {
+        auto idx = (vec.size() - 1) * i / count;
+        std::cout << vec[idx] << std::endl;
+    }
+}
+
+TEST_CASE("coverage64") {
+    // can't allocate bitset on the stack => segfault
+    robin_hood::unordered_flat_map<uint32_t, uint8_t> map;
+    auto bits = Bitset(UINT64_C(1) << 32);
+
+    uint64_t x = 0;
+    while (true) {
+        // 1598982049 nasam
+        // 1598925211 mumx_mumx_rrxx_1
+        // 1767169350 robin_hood_hash_int
+        for (size_t i = 0; i < 1000000000; ++i) {
+            auto h = robin_hood_hash_int(x);
+            // auto h = mumx_mumx_rrxx_1(x);
+            // auto h = nasam(x);
+            bits.set(static_cast<uint32_t>(h));
+            bits.set(static_cast<uint32_t>(h >> 32));
+            ++x;
+        }
+        std::cout << bits.count() << std::endl;
+        bits.clear();
     }
 }

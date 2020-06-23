@@ -12,3 +12,9 @@ inline uint64_t rrmxmx(uint64_t v) {
     v *= UINT64_C(0x9FB21C651E98DF25);
     return v ^ v >> 28;
 }
+
+inline uint64_t rrm(uint64_t v) {
+    v ^= rotr(v, 49) ^ rotr(v, 24);
+    v *= UINT64_C(0x9FB21C651E98DF25);
+    return v;
+}

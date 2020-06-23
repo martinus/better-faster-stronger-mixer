@@ -15,3 +15,13 @@ inline uint64_t wyhash3_mix(uint64_t v) noexcept {
     auto b = v >> 32U;
     return mumx(mumx(a ^ wyp0, b ^ wyp1), UINT64_C(8) ^ wyp4);
 }
+
+inline uint64_t wyhash3_mix2(uint64_t v) noexcept {
+    static constexpr auto wyp0 = UINT64_C(0xa0761d6478bd642f);
+    static constexpr auto wyp1 = UINT64_C(0xe7037ed1a0b428db);
+
+    auto a = v & UINT64_C(0x00000000ffffffff);
+    auto b = v >> 32U;
+
+    return mumx(wyp0, mumx(a ^ wyp0, b ^ wyp1));
+}
