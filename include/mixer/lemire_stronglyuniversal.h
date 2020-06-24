@@ -48,9 +48,8 @@ inline uint64_t lemire_stronglyuniversal_32(uint64_t x) noexcept {
     //
     // Added a final multiplcation with a constant for more mixing. It is most important that the
     // lower bits are well mixed.
-    static constexpr uint64_t b = UINT64_C(0xff51afd7ed558ccd);
-    static constexpr uint64_t a = UINT64_C(0xc4ceb9fe1a85ec53);
-    static constexpr uint64_t c = UINT64_C(0xbf58476d1ce4e5b9);
-
-    return rotr(a * rotr(x, 32U) + b * x, 32U) * c;
+    auto a = x * UINT64_C(0xff51afd7ed558ccd);
+    auto b = rotr(x, 32U) * UINT64_C(0xc4ceb9fe1a85ec53);
+    auto h = rotr(a + b, 32U) * UINT64_C(0xbf58476d1ce4e5b9);
+    return h;
 }

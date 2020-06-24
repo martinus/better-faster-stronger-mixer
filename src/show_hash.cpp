@@ -47,5 +47,33 @@ TEST_CASE_TEMPLATE_DEFINE("show_sequential" * doctest::skip(), Mixer, mixer_id2)
         }
     }
 }
-
 TEST_CASE_TEMPLATE_APPLY(mixer_id2, AllMixers);
+
+template <typename Mixer>
+void xy(size_t shifter) {
+    uint64_t x = 0;
+    uint64_t y = 0;
+    for (size_t i = 0; i < 100; ++i) {
+        show<Mixer>(x | (y << shifter));
+        if (x != y) {
+            show<Mixer>(y | (x << shifter));
+        }
+
+        if (y == x) {
+            ++x;
+            y = 0;
+        } else {
+            ++y;
+        }
+    }
+}
+
+TEST_CASE_TEMPLATE_DEFINE("show_xy_16" * doctest::skip(), Mixer, mixer_id3) {
+    xy<Mixer>(16);
+}
+TEST_CASE_TEMPLATE_APPLY(mixer_id3, AllMixers);
+
+TEST_CASE_TEMPLATE_DEFINE("show_xy_32" * doctest::skip(), Mixer, mixer_id4) {
+    xy<Mixer>(32);
+}
+TEST_CASE_TEMPLATE_APPLY(mixer_id4, AllMixers);

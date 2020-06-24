@@ -57,6 +57,7 @@ MAKE_MIXER_CLASS(mumx_mumx_rrxx_1)
 MAKE_MIXER_CLASS(murmurhash3_fmix64)
 MAKE_MIXER_CLASS(nasam)
 MAKE_MIXER_CLASS(robin_hood_hash_int)
+MAKE_MIXER_CLASS(robin_hood_hash_int_4_0_0)
 MAKE_MIXER_CLASS(rrmxmx)
 MAKE_MIXER_CLASS(rrm)
 MAKE_MIXER_CLASS(rrxmrrxmsx_0)
@@ -70,6 +71,6 @@ using AllMixers =
     std::tuple<c_FNV1A_Pippip, c_aes2, c_aes3, c_crc_mix, c_crc_mul, c_ettinger_mixer1,
                c_ettinger_pelican, c_fnv1a_64, c_lemire_stronglyuniversal,
                c_lemire_stronglyuniversal_32, c_mum3_mixer, c_mumxmumxx1, c_mumxmumxx2,
-               c_mumx_mumx_rrxx_1, c_murmurhash3_fmix64, c_nasam, c_robin_hood_hash_int, c_rrmxmx,
-               c_rrm, c_rrxmrrxmsx_0, c_staffort_mix13, c_twang_mix64, c_wyhash3_mix2,
-               c_wyhash3_mix, c_xxh3_mixer>;
+               c_mumx_mumx_rrxx_1, c_murmurhash3_fmix64, c_nasam, c_robin_hood_hash_int,
+               c_robin_hood_hash_int_4_0_0, c_rrmxmx, c_rrm, c_rrxmrrxmsx_0, c_staffort_mix13,
+               c_twang_mix64, c_wyhash3_mix2, c_wyhash3_mix, c_xxh3_mixer>;
