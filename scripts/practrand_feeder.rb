@@ -1,7 +1,7 @@
 #!/bin/env ruby
 
 if ARGV.size != 3
-    STDERR.puts "usage: practrand_feeder.rb <num_threads: 16> <tlmin: 10> <tlmax: 40> <mixer>"
+    STDERR.puts "usage: practrand_feeder.rb <num_threads: 16> <tlmax: 40> <mixer>"
     exit(1)
 end
 

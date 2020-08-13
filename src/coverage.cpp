@@ -171,7 +171,7 @@ private:
 // prefetch idea from
 // https://encode.su/threads/3207-ZrHa_update-a-fast-construction-for-iterated-hashing code
 // https://gist.github.com/svpv/c305e63110dfc4ab309ad7586ceea277
-TEST_CASE("coverage") {
+TEST_CASE("coverage" * doctest::skip()) {
     // can't allocate bitset on the stack => segfault
     static constexpr size_t Size = UINT64_C(1) << 32;
     // auto bits = new std::bitset<Size>();
@@ -204,7 +204,7 @@ TEST_CASE("coverage") {
     std::cout << ratio << "% coverage (" << bits.count() << " of " << Size << ")" << std::endl;
 }
 
-TEST_CASE("coverage_optimizer") {
+TEST_CASE("coverage_optimizer" * doctest::skip()) {
     static constexpr size_t Size = UINT64_C(1) << 32;
     sfc64 rng;
     auto bits = Bitset(Size);
@@ -235,7 +235,7 @@ TEST_CASE("coverage_optimizer") {
     }
 }
 
-TEST_CASE("coverage_optimizer16") {
+TEST_CASE("coverage_optimizer16" * doctest::skip()) {
     static constexpr size_t Size = UINT64_C(1) << 16;
     sfc64 rng;
     auto bits = Bitset(Size);
@@ -264,14 +264,14 @@ uint64_t dummyhash(uint64_t x) {
     return h;
 }
 
-TEST_CASE("find_collisions") {
+TEST_CASE("find_collisions" * doctest::skip()) {
     auto mask = UINT64_C(0xfffFFFFF);
 
     uint64_t x = 0;
     uint64_t pre = 0;
     while (true) {
         auto h = robin_hood_hash_int(x);
-        //auto h = wyhash3_mix(x);
+        // auto h = wyhash3_mix(x);
         if (0 == (h & mask)) {
             std::cout << x << " " << (x - pre) << " -> " << to_hex(h) << std::endl;
             pre = x;
@@ -280,13 +280,13 @@ TEST_CASE("find_collisions") {
     }
 }
 
-TEST_CASE("collisions") {
+TEST_CASE("collisions" * doctest::skip()) {
 
     std::vector<size_t> vec(1U << 20);
     auto mask = vec.size() - 1;
     for (size_t i = 0; i < 100000000; ++i) {
         auto x = i << 35;
-        //auto h = robin_hood_hash_int(x);
+        // auto h = robin_hood_hash_int(x);
         auto h = dummyhash(x);
         // auto h = mumx_mumx_rrxx_1(x);
         // auto h = nasam(x);
@@ -302,7 +302,7 @@ TEST_CASE("collisions") {
     }
 }
 
-TEST_CASE("coverage64") {
+TEST_CASE("coverage64" * doctest::skip()) {
     // can't allocate bitset on the stack => segfault
     robin_hood::unordered_flat_map<uint32_t, uint8_t> map;
     auto bits = Bitset(UINT64_C(1) << 32);
